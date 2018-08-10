@@ -13,7 +13,7 @@ public abstract class AbstractDao
 	
 	public Session session()
 	{
-		return sessionFactory.getCurrentSession();
+		return sessionFactory.openSession();
 	}
 	
 }
