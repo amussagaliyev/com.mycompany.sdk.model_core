@@ -1,19 +1,38 @@
 package com.mycompany.model.core;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.lang.reflect.ParameterizedType;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.stereotype.Repository;
 
 @Repository
-public abstract class AbstractDao
+public abstract class AbstractDao<T>
 {
-	@Autowired
-	private SessionFactory sessionFactory;
-	
-	public Session session()
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    private Class<T> persistentClass;
+    
+    public AbstractDao()
+    {
+        this.persistentClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];  
+    }
+
+    public EntityManager entityManager()
 	{
-		return sessionFactory.openSession();
+    	return entityManager;
 	}
-	
+    
+    public T save(T entity)
+    {
+    	return entityManager.merge(entity);
+    }
+    
+    public T getById(Integer id)
+    {
+    	return entityManager.find(persistentClass, id);
+    }
+    
 }
