@@ -43,4 +43,4 @@ jobs:
 general:
     branches:
         only:
-            - release/2.0
+            - release/*
