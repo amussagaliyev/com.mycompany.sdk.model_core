@@ -48,5 +48,5 @@ workflows:
                 filters:
                     branches:
                         only:
-                            - /release\\/.*/
+                            - /release\/.*/
                             - master
