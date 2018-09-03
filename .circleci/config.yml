@@ -3,13 +3,8 @@
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
 version: 2
-workflows:
-    jobs:
-        build:
-            branches:
-                only:
-                    - release/*
-                    - master
+jobs:
+  build:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
@@ -45,3 +40,13 @@ workflows:
         
       # run tests!
       - run: gradle test
+workflows:
+    version: 2
+    build_and_test:
+        jobs:
+            - build:
+                filters:
+                    branches:
+                        only:
+                            - release/*
+                            - master
